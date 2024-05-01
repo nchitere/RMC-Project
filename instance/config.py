@@ -1,6 +1,7 @@
 class Config():
     DEBUG=False
     DB_NAME = 'RMC'
+    COLLECTION_NAME = 'kakamega_rmc'
 class DevelopmentConfig(Config):
     """
     Enable our debug mode to True

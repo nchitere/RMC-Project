@@ -2,6 +2,10 @@
 from flask import Flask, request, jsonify
 from instance.config import Config
 from app.process_data import process_data
+from app.db_operations import DbOperations
+import json
+from bson import json_util,ObjectId
+
 data = {}
 
 # Instantiate app and set up mongodb
@@ -25,13 +29,16 @@ def receive_data_from_kobo():
         return jsonify({"message": "No data received"}), 400  # Handle empty data case
     
 
-# Endpoint to get data from MongoDB
+
 @app.route('/get_data_from_db', methods=['GET'])
 def get_data_from_db():
     try:
-        data = list(collection.find())
+        db_ops = DbOperations('kakamega_rmc')  # Replace 'collection_name' with the actual collection name
+        data = list(db_ops.collection.find())
         if data:
-            return jsonify(data), 200
+            # Convert BSON data types to JSON-compatible types
+            json_data = json.loads(json_util.dumps(data, default=str))
+            return jsonify(json_data), 200
         else:
             return jsonify({"message": "No data found"}), 404
     except Exception as e:
