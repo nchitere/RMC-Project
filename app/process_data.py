@@ -1,5 +1,6 @@
-
+from flask import request
 from app.db_operations import DbOperations
+from app.gsheet import GoogleSheetAuth
 
 def extract_fields(data):
     formatted_fields = {
@@ -35,10 +36,54 @@ def save_to_db(processed_data):
     db_operations = DbOperations('kakamega_rmc')
     db_operations.save_one_to_db(processed_data)
 
+# Function to transform data into the required format for writing to googlesheets
+def format_google_sheet_data(processed_data):
+    transformed_entries = [[ 
+                            processed_data['age'], 
+                            processed_data['consent'], 
+                            processed_data['facility'],
+                            processed_data['parity'],
+                            processed_data['education_level'],
+                            processed_data['marital_status'],
+                            processed_data['religion'],
+                            processed_data['polite_staff'],
+                            processed_data['hcw_introduce_themselves'],
+                            processed_data['birth_companion'],
+                            processed_data['insults_or_threats'],
+                            processed_data['forced_to_do_anything'],
+                            processed_data['procedures_explained'],
+                            processed_data['discriminated_against'],
+                            processed_data['choice_of_delivery_position'],
+                            processed_data['accorded_privacy'],
+                            processed_data['outcomes_explained'],
+                            processed_data['adequate_care_admission'],
+                            processed_data['adequate_care_labor_delivery'],
+                            processed_data['adequate_care_post_delivery'],
+                            processed_data['professional_language'],
+                            processed_data['content_with_services'],
+                            processed_data['recommend_this_facility'],
+                            processed_data['areas_to_improve']]]
+    return transformed_entries
+
+
+def write_to_google_sheet(processed_data):
+#     # Extract the data to create a format that will be written to the google sheet.
+    google_sheet_data = format_google_sheet_data(processed_data)
+#     # create an instance of the google sheet class
+    google_sheet_auth = GoogleSheetAuth()
+#     # Using the instance call the the "write method"
+#     # Pass the correct arguments key, data & worksheet
+    key = '1KDsD-akp7-qNYE0WM43ZqQ41a5R8VE1w8HgUSdnODj8'
+    google_sheet_auth.write_rows_existing_sheet(google_sheet_data, key, 'RMC Data') # The write method called on the instance
+
+
+
+
 
 
 def process_data(data):
     processed_data = extract_fields(data)
     save_to_db(processed_data)
+    write_to_google_sheet(processed_data)
     return processed_data
     

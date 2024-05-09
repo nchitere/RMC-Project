@@ -14,10 +14,11 @@ class DbOperations:
         except Exception as e:
             print(f"Error saving data to MongoDB: {e}")
 
-    def query_data_from_db(self, data):
+    def query_data_from_db(self):
         try:
-            self.collection.find(data)
+            data = list(self.collection.find())
             print('Data successfully retrieved')
+            return data
         except Exception as e:
             print(f'Data not found')
 
