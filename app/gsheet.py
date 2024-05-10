@@ -5,7 +5,7 @@ from instance.config import AppConfig
 import logging
 # from google.oauth2.service_account import Credentials
 from google.oauth2 import service_account
-import app.process_data
+
 
 
 class GoogleSheetAuth:
@@ -39,28 +39,28 @@ class GoogleSheetAuth:
         google_auth = self.authorize_account()
         return google_auth.open_by_key(sheet_key)
     
-    def read_google_sheet(self, key):
-        """Function that retries helpdesk schedules records
-        Returns:
-            schedules_records(dict): all schedules records
-        """
-        try:
-            google_sheet = self.open_sheet(
-                key
-            )
+    # def read_google_sheet(self, key):
+    #     """Function that retries helpdesk schedules records
+    #     Returns:
+    #         schedules_records(dict): all schedules records
+    #     """
+    #     try:
+    #         google_sheet = self.open_sheet(
+    #             key
+    #         )
 
-            #read specific row
-            working_sheet = google_sheet.worksheet('RMC Data')
-            schedules_records = working_sheet.get_all_records()
-            return schedules_records
+    #         #read specific row
+    #         working_sheet = google_sheet.worksheet('RMC Data')
+    #         schedules_records = working_sheet.get_all_records()
+    #         return schedules_records
 
-        except Exception as error:
-            logging.error(error)
+    #     except Exception as error:
+    #         logging.error(error)
 
     def read_google_worksheet(self, key, worksheet):
-        """Function that retries helpdesk schedules records
+        """Function that writes records from gsheet
         Returns:
-            schedules_records(dict): all schedules records
+            a copy of records submitted through kobo:
         """
         try:
             google_sheet = self.open_sheet(
