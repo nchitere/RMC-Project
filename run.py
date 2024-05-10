@@ -6,7 +6,7 @@ import json
 from bson import json_util
 from flask import Flask, request, jsonify
 from instance.config import Config
-from app.process_data import process_data, write_to_google_sheet
+from app.process_data import process_data
 from app.db_operations import DbOperations
 from app.gsheet import GoogleSheetAuth
 
@@ -46,6 +46,16 @@ def get_data_from_db():
             return jsonify({"message": "No data found"}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route('/read_data_from_gsheet', methods = ['GET'])
+def read_data_from_gsheet():
+    key = '1KDsD-akp7-qNYE0WM43ZqQ41a5R8VE1w8HgUSdnODj8'
+    worksheet = 'RMC Data'
+    gsheet_intance = GoogleSheetAuth()
+    data = GoogleSheetAuth.read_google_worksheet(gsheet_intance,key,worksheet)
+    return data
+
 
 
     

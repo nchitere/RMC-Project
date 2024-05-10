@@ -27,8 +27,11 @@ def extract_fields(data):
         "adequate_care_post_delivery": data.get("_20_Do_you_feel_you_care_after_delivery"),
         "professional_language": data.get("_21_Do_you_think_the_nd_friendly_language"),
         "content_with_services": data.get("_20a_Were_you_contented_with_t"),
+        "reason_for_contentment":data.get("_22_1_If_Yes_in_20a_above_brie"),
         "recommend_this_facility": data.get("Would_recommend_this_facility"),
-        "areas_to_improve": data.get("_22a_From_your_personal_experi")
+        "why_not_recommend_facility": data.get("_23_1_If_No_in_23_above_why_no"),
+        "areas_to_improve": data.get("_22a_From_your_personal_experi"),
+        "exact_areas_to_improve": data.get("_24_1_If_yes_in_24_above_what_")
     }
     return formatted_fields
 
@@ -61,8 +64,11 @@ def format_google_sheet_data(processed_data):
                             processed_data['adequate_care_post_delivery'],
                             processed_data['professional_language'],
                             processed_data['content_with_services'],
+                            processed_data['reason_for_contentment'],
                             processed_data['recommend_this_facility'],
-                            processed_data['areas_to_improve']]]
+                            processed_data['why_not_recommend_facility'],
+                            processed_data['areas_to_improve'],
+                            processed_data['exact_areas_to_improve']]]
     return transformed_entries
 
 
