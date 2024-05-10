@@ -27,12 +27,13 @@ def extract_fields(data):
         "adequate_care_post_delivery": data.get("_20_Do_you_feel_you_care_after_delivery"),
         "professional_language": data.get("_21_Do_you_think_the_nd_friendly_language"),
         "content_with_services": data.get("_20a_Were_you_contented_with_t"),
-        "reason_for_contentment":data.get("_22_1_If_Yes_in_20a_above_brie"),
+        "reason_for_contentment":data.get("_22_1_If_Yes_in_20a_cted_healthcare_unit"),
         "recommend_this_facility": data.get("Would_recommend_this_facility"),
-        "why_not_recommend_facility": data.get("_23_1_If_No_in_23_above_why_no"),
+        "why_not_recommend_facility": data.get("_23_1_If_No_in_23_above_why_not"),
         "areas_to_improve": data.get("_22a_From_your_personal_experi"),
-        "exact_areas_to_improve": data.get("_24_1_If_yes_in_24_above_what_")
+        "exact_areas_to_improve": data.get("_24_1_If_yes_in_24_a_eas_need_improvement")
     }
+  
     return formatted_fields
 
 def save_to_db(processed_data):
